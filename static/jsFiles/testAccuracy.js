@@ -3,7 +3,7 @@
 function saveData(time, accuracy, level, puzzleNum) {
 
     return; // just returns for now. later, will implement saving data in client-side browser 
-    
+
     /** commented out save data code that uses flask/python
     var dataToSave = time + ', Level ' + level + ', ' + accuracy + ', ' + puzzleNum;
     var data = { value: dataToSave };  // Data to be saved
@@ -158,7 +158,7 @@ function restartGame() {
     console.log("restart game was clicked");
     
     // Redirect the browser to the login page URL
-    window.location.href = "login.html"; 
+    window.location.href = "index.html"; 
     
 }
 
