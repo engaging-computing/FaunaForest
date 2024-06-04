@@ -1,0 +1,5 @@
+name,classification,canFly,canSwim,hasFur,hasScales,numLimbs,weight
+dog,mammal,0,1,1,0,4,0
+eagle,bird,1,0,0,0,2,0
+snake,reptile,0,1,0,1,0,0
+piranha,fish,0,1,0,1,0,0

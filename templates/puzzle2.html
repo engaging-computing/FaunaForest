@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Level 2</title>
+  <style>
+   
+   .container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+       body, html {
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    .button:hover {
+      opacity: 0.7; 
+    }
+
+    .button-container {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 10;
+    } 
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8); 
+      z-index: 9; 
+      display: none; 
+    }
+
+.toast-message {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.toast-buttons {
+    display: flex;
+    flex-wrap: wrap; /* Enable wrapping */
+    max-width: 480px; 
+}
+
+.toast-button {
+    margin-right: 10px;
+    margin-bottom: 10px; /* Add margin between rows */
+    padding: 10px 20px;
+    background-color: #87ffbf;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.toast-button:last-child {
+    margin-right: 0;
+}
+
+#decisionTree {
+    padding: 1vw; 
+    height: 5vh; 
+    width: 5vw; 
+}
+
+.level-container {
+    height: 20vh; 
+    width: 45vw; 
+    display: flex; 
+    flex-direction: row;
+    align-items: center; 
+   
+    justify-content: space-around; 
+}
+
+
+
+.textbox {
+    margin: 1vw;
+    border: 1px solid darkgreen;
+    width: 9vw; 
+    height: 9vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Bradley Hand', cursive;
+    font-size: 2vw; 
+    color: white;
+    min-width: 9vw;
+}
+
+
+.yesBranch {
+  margin: 2vw; 
+width: 0.1vw; 
+    height: 5vw;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  transform: rotate(45deg); 
+ font-family: 'Bradley Hand', cursive;
+}
+.noBranch {
+  margin: 2vw; 
+width: 0.1vw; 
+    height: 5vh;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  transform: rotate(45deg); 
+ font-family: 'Bradley Hand', cursive; 
+}
+
+.glowing-textbox {
+    transition: box-shadow 0.5s ease-in-out; 
+}
+
+
+.text-inside {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    transform-origin: center;
+    font-family: 'Bradley Hand', cursive; 
+    font-size: 50px; 
+    color: white; 
+    -webkit-text-stroke: 2px darkgreen; 
+}
+.toast-panel {
+    position: fixed;
+    bottom: 16%;
+    left: 5%;
+    width: 33%; /* Adjust as needed */
+    height: 62%; /* Adjust as needed */
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    z-index: 3;
+}
+.toast-draggable {
+    width: 30vw;
+    height: 1.6vw; 
+    border: 0.25vw solid #ccc; 
+    border-radius: 0.25vw; 
+    padding: 0.25vw; 
+    cursor: pointer; 
+    margin: 1vw; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background-color: #87ffbf; 
+    font-family: 'Bradley Hand', cursive;
+    font-size: 1.3vw;
+    color: darkgreen; 
+    margin-bottom: 1vw;
+}
+      
+.toast-message {
+    font-family: 'Bradley Hand', cursive;
+    font-size: 1.1vw;
+    color:white;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+  
+}
+
+
+  </style>
+</head>
+<body>
+
+
+  <script src="http://127.0.0.1:8000/static/jsFiles/treeBuilder.js">//script to hold tree data</script>
+  <script src="http://127.0.0.1:8000/static/jsFiles/testAccuracy.js"></script>
+  <script src="http://127.0.0.1:8000/static/jsFiles/loadAnimals.js">//load animals</script>
+  <script src="http://127.0.0.1:8000/static/jsFiles/defineSplitUI.js">//defining splits</script>
+
+
+    <!-- Images Background-->
+  
+    <div style="width: 100vw; height: 100vh; position: relative; background-color: #87ffbf">
+      <img id="BackgroundImage" style="width: 100%; height: 100%; left: 0%; top: 0%;opacity: 30%; z-index:0;position: absolute" src="http://127.0.0.1:8000/static/bgexample4.png" /> 
+      
+      <div style="width: 100vw; height: 1vh; left: 0%; top: 5%; position: absolute; display: flex; justify-content: center; align-items: center; font-size: 5vw; text-align: center; color: white; text-shadow: -0.25vw -0.25vw 0 #006400, -0.25vw -0.25px 0 #006400, -0.25px 0.25px 0 #006400, -0.25vw -0.25vw 0 #006400, 0 0 5px #006400; font-family: 'Bradley Hand', cursive;">
+        Fauna Forest --- Level 2
+      </div>
+      
+      <img id="treeBuilderOutline" style="width: 100%; height: 105%; left: 10%; top: -8%; position: absolute" src="http://127.0.0.1:8000/static/boxcolor.png" /> 
+
+    
+    <a href="#">
+      <img id="testAccuracy" class="button" style="width: 26.5%; height: 12%; left: 50%; top: 87%; position: absolute; transform: translateX(-50%);" src="http://127.0.0.1:8000/static/testAccuracy.png" onclick="callCalculateAccuracy();" />
+    </a>
+
+   
+
+
+   <img id="tutorialcursor" style="width: 10%; height: 20%; pointer-events: none; top: 50%; left: 28%;opacity:0; transform: rotate(150deg); z-index: -500; position: absolute; animation: slide 1.2s linear infinite;" src="http://127.0.0.1:8000/static/mousecursor1.png" />
+
+      <img id="tutorialcursorstart" style="width: 10%; height: 20%; pointer-events: none; top: 24%; left: 35%;opacity:1; transform: rotate(150deg); z-index: -500; position: absolute;animation: pointRotation 1s linear infinite; " src="http://127.0.0.1:8000/static/mousecursor1.png" />
+
+
+
+
+
+       <!-- Decesion Trees
+     The drop containers are held in the nodes, the drag objects are in defineSplitUI.js script under the createToastPanel 
+     -->
+     <div id="output" style="position: absolute; top: 10%; left: 75%; transform: translate(-50%, -50%); font-size: 1.3vw;"></div>
+     <!-- </div> -->
+
+  <div id="defineSplitMenu" class="popup-menu" style="top: -8%; left: 10%; transform: translate(-50%, -50%);">
+    <a href="#">Option 1</a>
+    <a href="#">Option 2</a>
+    <a href="#">Option 3</a>
+  </div>
+
+
+
+
+
+  <div id="decisionTree" style="position: absolute; top: 21%; left: 51%; transform: translate(-50%, -50%); z-index: 3;">
+    <div id="level-1" class="level-container">
+        <div class="textbox" id="node1" style="background-color: #006400; transform: rotate(45deg);" ondrop="drop(event, 'node1')" ondragover="allowDrop(event)"></div>
+    </div>
+    <div id="level-2" class="level-container">
+        <div class="textbox" id="node2" style="background-color: #006400; transform: rotate(45deg);" ondrop="drop(event, 'node2')" ondragover="allowDrop(event)"></div>
+        <div class="textbox" id="node3" style="background-color: #006400; transform: rotate(45deg);" ondrop="drop(event, 'node3')" ondragover="allowDrop(event)"></div>
+    </div>
+    <div id="level-3" class="level-container" style="margin-top: 5vh;">
+      <div class="textbox" id="node4" ondrop="drop(event, 'node4')" ondragover="allowDrop(event)"></div>
+      <div class="textbox" id="node5" ondrop="drop(event, 'node5')" ondragover="allowDrop(event)"></div>
+      <div class="textbox" id="node6" ondrop="drop(event, 'node6')" ondragover="allowDrop(event)"></div>
+      <div class="textbox" id="node7" ondrop="drop(event, 'node7')" ondragover="allowDrop(event)"></div>
+    </div>
+  </div>
+
+
+    <div id="branches" style="position: absolute; top: 49%; left: 71%; transform: translate(-50%, -50%); z-index: 2;" >
+      <div id="branches1" class="level-container">
+        <div class="noBranch" id="branch1" style="background-color: darkgreen; height: 50%; transform: rotate(45deg); margin-left: 30%; z-index:5;">
+          <span style="color: lightgreen; font-family: 'Bradley Hand', cursive; font-size:2.5vw; transform: rotate(-45deg); display: inline-block; text-shadow: -0.1vw -0.1vw 0 black, 0.1vw -0.1vw 0 black, -0.1vw 0.1vw 0 black, 0.1vw 0.1vw 0 black;">No</span> <!-- Text for the "Yes" branch -->
+        </div>
+        <div class="yesBranch" id="branch2" style="background-color: darkgreen; height: 50%; transform: rotate(-45deg); margin-right: 30%; z-index:5;">
+          <span style="color: lightgreen; font-family: 'Bradley Hand', cursive; font-size:2.5vw; transform: rotate(45deg); display: inline-block; text-shadow: -0.1vw -0.1vw 0 black, 0.1vw -0.1vw 0 black, -0.1vw 0.1vw 0 black, 0.1vw 0.1vw 0 black;">Yes</span> <!-- Text for the "No" branch -->
+        </div>
+      </div>
+
+      <div id="branches2" class="level-container">
+        <div class="noBranch" id="branch3" style="background-color: darkgreen; height: 52%; transform: rotate(40deg); margin-left: 10%; margin-top: 9%;; z-index:5;">
+          <span style="color: lightgreen; font-family: 'Bradley Hand', cursive; font-size:2.5vw; transform: rotate(-40deg); display: inline-block; text-shadow: -0.1vw -0.1vw 0 black, 0.1vw -0.1vw 0 black, -0.1vw 0.1vw 0 black, 0.1vw 0.1vw 0 black;">No</span> <!-- Text for the "Yes" branch -->
+        </div>
+        <div class="yesBranch" id="branch4" style="background-color: darkgreen; height: 52%; transform: rotate(-40deg); margin-right: 10%; margin-top: 9%; z-index:5;">
+          <span style="color: lightgreen; font-family: 'Bradley Hand', cursive; font-size:2.5vw; transform: rotate(40deg); display: inline-block; text-shadow: -0.1vw -0.1vw 0 black, 0.1vw -0.1vw 0 black, -0.1vw 0.1vw 0 black, 0.1vw 0.1vw 0 black;">Yes</span> <!-- Text for the "No" branch -->
+        </div>
+        <div class="noBranch" id="branch5" style="background-color: darkgreen; height: 52%; transform: rotate(40deg); margin-left: 10%; margin-top: 9%; z-index:5;">
+          <span style="color: lightgreen; font-family: 'Bradley Hand', cursive; font-size:2.5vw; transform: rotate(-40deg); display: inline-block; text-shadow: -0.1vw -0.1vw 0 black, 0.1vw -0.1vw 0 black, -0.1vw 0.1vw 0 black, 0.1vw 0.1vw 0 black;">No</span> <!-- Text for the "Yes" branch -->
+        </div>
+        <div class="yesBranch" id="branch6" style="background-color: darkgreen; height: 52%; transform: rotate(-40deg); margin-right: 10%; margin-top: 9%;; z-index:5;">
+          <span style="color: lightgreen; font-family: 'Bradley Hand', cursive; font-size:2.5vw; transform: rotate(40deg); display: inline-block; text-shadow: -0.1vw -0.1vw 0 black, 0.1vw -0.1vw 0 black, -0.1vw 0.1vw 0 black, 0.1vw 0.1vw 0 black;">Yes</span> <!-- Text for the "No" branch -->
+        </div>
+      </div>
+    </div>
+    
+      
+
+    <div class="overlay" id="overlay"></div>
+
+
+<!-- things to do on startup -->
+<script>
+  const initialContent = document.documentElement.outerHTML;
+  showPuzzle2();
+</script>
+
+
+
+
+
+
+
+
+
+
+  <!-- Dragging Background-->
+    
+  <script src="http://127.0.0.1:8000/static/jsFiles/testDragNDrop/ContainerFunctions.js"></script>
+  <script>
+    const cursorImage = document.getElementById('tutorialcursor');
+    const cursorImagestart = document.getElementById('tutorialcursorstart');
+      
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.target.style.opacity = "0"; // Make the dragged image translucent
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function dragEnd(ev) {
+      ev.target.style.opacity = "1"; // Make the original image opaque again
+    }
+
+    function drop(ev, nodeId) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("text");
+      var targetNode = document.getElementById(nodeId);
+      if (!targetNode) {
+        console.error("Target node not found:", nodeId);
+        return;
+      }
+
+      for (let i = 0; i < randPuzzle.leaves.length; i++) {
+        if (targetNode.textContent == randPuzzle.leaves[i]) {
+          return; // cannot drag/drop into leaf node 
+        }
+      }
+
+      for (let i = 0; i < randPuzzle.decisionNodesList.length; i++) {
+        if (targetNode.textContent == randPuzzle.decisionNodesList[i]) {
+          return; // cannot drag into predefined node 
+        }
+      }
+
+      // add draggable block if user is replacing a selection they already made 
+      var draggableItems = document.getElementById('draggableItems');
+      if (targetNode.textContent.trim() !== '') {
+        var draggableItem = document.createElement('div');
+        draggableItem.textContent = targetNode.textContent.trim();
+        draggableItem.className = 'toast-draggable';
+        draggableItem.draggable = true;
+
+        for (let i = 0; i < randPuzzle.options.length; i++) {
+          if (targetNode.textContent.trim() == randPuzzle.options[i].trim()) {
+            draggableItem.id = `draggable-${i}`;
+          }
+        }
+        
+        // Add drag start event listener
+        draggableItem.addEventListener('dragstart', (event) => {
+            event.dataTransfer.setData("text", event.target.id);
+        });
+  
+        draggableItems.appendChild(draggableItem);
+      }
+
+      // clear the node before appending new content to prevent stacking
+      while (targetNode.firstChild) {
+        targetNode.removeChild(targetNode.firstChild);
+      }
+
+      var dragBlock = document.getElementById(data);
+
+      // Rotate the element by 45 degrees
+      var elementToAppend = document.createElement('div');
+      elementToAppend.style.transform = "rotate(-45deg)";
+      elementToAppend.style.fontSize = '2vw';
+      elementToAppend.style.textAlign = 'center'; // Center-align the text
+      elementToAppend.textContent = dragBlock.textContent;
+      targetNode.appendChild(elementToAppend);
+
+      // get the index of the node in the treeNodes array
+      var index = parseInt(nodeId.replace("node", "")) - 1;
+
+      // put user's choice into userSelections array for later use 
+      userSelections[index] = document.getElementById(data).textContent;
+      console.log(userSelections);
+
+      // log the name of the draggable item
+      console.log("Item dropped:", document.getElementById(data).textContent);
+
+      // log the current state of the userSelections array
+      console.log("userSelections:", userSelections);
+
+      // remove draggable block from draggables panel
+      dragBlock.parentNode.removeChild(dragBlock); 
+
+      switch (nodeId) {
+        case 'node1':
+          console.log("Item dropped in node1");
+          // custom logic for node1
+          break;
+        // add cases for other nodes as needed
+        default:
+          console.log("Item dropped in", nodeId);
+          break;
+      }
+    }
+
+
+
+
+  </script>
+</body>
+</html>
