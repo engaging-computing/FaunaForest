@@ -2,27 +2,45 @@
 // saves accuracy to datafile 
 function saveData(time, accuracy, level, puzzleNum) {
 
-    return; // just returns for now. later, will implement saving data in client-side browser 
+    // return; // just returns for now. later, will implement saving data in client-side browser 
 
-    /** commented out save data code that uses flask/python
-    var dataToSave = time + ', Level ' + level + ', ' + accuracy + ', ' + puzzleNum;
-    var data = { value: dataToSave };  // Data to be saved
-  
-    fetch('/dataFolder', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.text())
-    .then(result => {
-        console.log(result);  // Log the result from the server
-    })
-    .catch(error => {
-        console.error('Error:', error);
+    // data saving is adapted from code in AI-for-ASL project:
+
+    let firstName = localStorage.getItem('fname');
+    let lastInitial = localStorage.getItem('linitial');
+    let ageRange = localStorage.getItem('agerange');
+
+    var date = new Date();
+    var formattedDate = date.getDate() + "/"
+        + (date.getMonth() + 1) + "/"
+        + date.getFullYear() + " - "
+        + date.getHours() + ":"
+        + date.getMinutes() + ":"
+        + date.getSeconds();
+
+    // Create user key
+    let userKey = `${firstName}_${lastInitial}_${ageRange}`;
+
+    // Retrieve existing data for this user
+    let userData = localStorage.getItem(userKey);
+    if (userData) {
+        userData = JSON.parse(userData);
+    } else {
+        userData = [];
+    }
+
+    // Add new game stats to the user's data array
+    userData.push({
+        identifier: userKey,
+        timestamp: formattedDate,
+        secsOnPuzzle: time,
+        level: level,
+        accuracy: accuracy,
+        numPuzzles: puzzleNum,
     });
-    */
+
+    // Save updated data back to local storage
+    localStorage.setItem(userKey, JSON.stringify(userData));
 }
 
 // calculates accuracy and returns it 

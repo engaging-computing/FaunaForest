@@ -74,11 +74,26 @@
         alert("Please fill in all three fields.");
         return false;
       }
+
+      // save current user's info to local storage
+      addUser(input1, input2, input3);
+
       // Redirect to instructions.html on successful validation
       window.location.href = 'instructions.html';
   
       return false; // Prevent form submission
     }
+
+    /**
+     * Add new users to locally stored JSON object
+    **/
+    function addUser(firstName, lastInitial, ageRange) {
+        localStorage.setItem('fname', firstName);
+        localStorage.setItem('linitial', lastInitial);
+        localStorage.setItem('agerange', ageRange);
+    }
+
+
   </script>
 
   <div class="form-container">
