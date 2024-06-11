@@ -11,8 +11,8 @@ function saveData(time, accuracy, level, puzzleNum) {
     let ageRange = localStorage.getItem('agerange');
 
     var date = new Date();
-    var formattedDate = date.getDate() + "/"
-        + (date.getMonth() + 1) + "/"
+    var formattedDate = (date.getMonth() + 1) + "/"
+        + date.getDate() + "/"
         + date.getFullYear() + " - "
         + date.getHours() + ":"
         + date.getMinutes() + ":"
