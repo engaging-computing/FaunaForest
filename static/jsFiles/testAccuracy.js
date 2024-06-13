@@ -2,8 +2,6 @@
 // saves accuracy to datafile 
 function saveData(time, accuracy, level, puzzleNum) {
 
-    // return; // just returns for now. later, will implement saving data in client-side browser 
-
     // data saving is adapted from code in AI-for-ASL project:
 
     let firstName = localStorage.getItem('fname');
@@ -41,6 +39,9 @@ function saveData(time, accuracy, level, puzzleNum) {
 
     // Save updated data back to local storage
     localStorage.setItem(userKey, JSON.stringify(userData));
+
+    // new addition
+    localStorage.setItem('mainkey', JSON.stringify(userKey));
 }
 
 // calculates accuracy and returns it 
@@ -174,9 +175,51 @@ function gotoLevel3() {
 
 function restartGame() {
     console.log("restart game was clicked");
-    
+
+    // save data to computer -- for demo days 
+    saveUserDataToComputer();
+
     // Redirect the browser to the login page URL
     window.location.href = "index.html"; 
+    
+}
+
+function saveUserDataToComputer() {
+    let allUserData = {};
+
+    // Generate the timestamp
+    let date = new Date();
+    let timestamp = `${date.getFullYear() % 100}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}_${date.getHours().toString().padStart(2, '0')}-${date.getMinutes().toString().padStart(2, '0')}-${date.getSeconds().toString().padStart(2, '0')}`;
+    
+    if (localStorage.length > 0) {
+        // Use the last key in local storage for the filename
+        let lastKey = localStorage.key(localStorage.length - 1);
+        let mainKey = localStorage.getItem('mainkey'); // Retrieve the main key name
+
+        for (let i = 0; i < localStorage.length; i++) {
+            let key = localStorage.key(i);
+            let value = localStorage.getItem(key);
+            try {
+                allUserData[key] = JSON.parse(value);
+            } catch (e) {
+                console.warn(`Skipping key ${key} due to invalid JSON: ${value}`);
+            }
+        }
+    
+        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allUserData, null, 2));
+        let downloadAnchorNode = document.createElement('a');
+        let filename = `${mainKey}_${timestamp}.json`;
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", filename);
+        document.body.appendChild(downloadAnchorNode); // Required for Firefox
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    
+        // Clear local storage
+        localStorage.clear();
+    } else {
+        console.warn('No data in local storage to download.');
+    }
     
 }
 

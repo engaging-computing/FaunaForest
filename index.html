@@ -88,9 +88,9 @@
      * Add new users to locally stored JSON object
     **/
     function addUser(firstName, lastInitial, ageRange) {
-        localStorage.setItem('fname', firstName);
-        localStorage.setItem('linitial', lastInitial);
-        localStorage.setItem('agerange', ageRange);
+        localStorage.setItem('fname', JSON.stringify(firstName));
+        localStorage.setItem('linitial', JSON.stringify(lastInitial));
+        localStorage.setItem('agerange', JSON.stringify(ageRange));
     }
 
 
