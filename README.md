@@ -1,10 +1,12 @@
+__Link to the live version:__ https://pdr24.github.io/FaunaForest_githubpages/
+
 # FaunaForest
 
 ## About
 
 FaunaForest was created by Pragathi Durga Rajarajan and Adrian Cisneros as part of the the Developing AI Tools for K-12 course at the University of Texas at San Antonio, under the guidance of Dr. Fred Martin. 
 
-FaunaForest aims to teach K-12 students about decision trees via 3 levels of interactive decision tree puzzles. Each puzzle involves completing a decision tree that has blank mystery nodes in such a way that it will correctly classify some animals. 
+FaunaForest aims to teach K-12 students about decision trees via 3 levels of interactive decision tree puzzles. Each puzzle involves completing a decision tree that has blank mystery nodes in such a way that it will correctly classify various animals. 
 
 ## Using FaunaForest 
 
